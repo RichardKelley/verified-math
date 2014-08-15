@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++0x    CMakeFiles/test_vec3.dir/src/test/test_vec3.cpp.o  -o test_vec3 -rdynamic gtest-1.7.0/libgtest_main.a ../checkpp/lib/libcheckpp.so gtest-1.7.0/libgtest.a -lpthread -Wl,-rpath,/home/richard/code/verified-math/checkpp/lib 

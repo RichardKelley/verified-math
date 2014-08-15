@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../checkpp/include/checkpp/arbitrary.h
+type_traits
+-
+random
+-
+unistd.h
+-
+impl/arbitrary.hpp
+../checkpp/include/checkpp/impl/arbitrary.hpp
+
+../checkpp/include/checkpp/impl/arbitrary.hpp
+checkpp/arbitrary.h
+../checkpp/include/checkpp/impl/checkpp/arbitrary.h
+type_traits
+-
+random
+-
+unistd.h
+-
+
+../checkpp/include/checkpp/result.h
+iostream
+-
+string
+-
+vector
+-
+algorithm
+-
+
+/home/richard/code/verified-math/checkpp/src/main/arbitrary.cpp
+checkpp/arbitrary.h
+/home/richard/code/verified-math/checkpp/src/main/checkpp/arbitrary.h
+
+/home/richard/code/verified-math/checkpp/src/main/result.cpp
+checkpp/result.h
+/home/richard/code/verified-math/checkpp/src/main/checkpp/result.h
+
