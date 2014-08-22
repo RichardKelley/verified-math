@@ -1,5 +1,0 @@
-/home/richard/code/verified-math/build/checkpp/CMakeFiles/checkpp.dir
-/home/richard/code/verified-math/build/gtest-1.7.0/CMakeFiles/gtest.dir
-/home/richard/code/verified-math/build/gtest-1.7.0/CMakeFiles/gtest_main.dir
-/home/richard/code/verified-math/build/CMakeFiles/test_vec3.dir
-/home/richard/code/verified-math/build/CMakeFiles/verified_math.dir

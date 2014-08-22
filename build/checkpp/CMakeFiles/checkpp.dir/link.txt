@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -std=c++0x   -shared -Wl,-soname,libcheckpp.so -o ../../checkpp/lib/libcheckpp.so CMakeFiles/checkpp.dir/src/main/result.cpp.o CMakeFiles/checkpp.dir/src/main/arbitrary.cpp.o 
