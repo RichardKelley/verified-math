@@ -20,9 +20,20 @@ include_directories("${PROJECT_SOURCE_DIR}/checkpp/include")
 
 add_library(verified_math SHARED
  src/main/vec3.cpp
+ src/main/vec4.cpp
 )
 
 add_executable(test_vec3
   src/test/test_vec3.cpp
 )
 target_link_libraries(test_vec3 gtest_main checkpp)
+
+add_executable(test_vec4
+  src/test/test_vec4.cpp
+)
+target_link_libraries(test_vec4 gtest_main checkpp)
+
+add_executable(test_mat33
+  src/test/test_mat33.cpp
+)
+target_link_libraries(test_mat33 gtest_main checkpp)
