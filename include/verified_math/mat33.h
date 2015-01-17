@@ -23,7 +23,6 @@ namespace verified_math {
       x31{_x31}, x32{_x32}, x33{_x33} { }
   };
 
-
   template<typename Scalar>
   Mat33<Scalar> operator+(const Mat33<Scalar>& m1, const Mat33<Scalar>& m2) {
     return Mat33<Scalar>{
