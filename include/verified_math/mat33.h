@@ -11,9 +11,9 @@ namespace verified_math {
   template<typename Scalar>
   class Mat33 {
   public:
-    Scalar x11 {0.0}; Scalar x12 {0.0}; Scalar x13 {0.0};
-    Scalar x21 {0.0}; Scalar x22 {0.0}; Scalar x23 {0.0};
-    Scalar x31 {0.0}; Scalar x32 {0.0}; Scalar x33 {0.0};
+    Scalar x11 {0}; Scalar x12 {0}; Scalar x13 {0};
+    Scalar x21 {0}; Scalar x22 {0}; Scalar x23 {0};
+    Scalar x31 {0}; Scalar x32 {0}; Scalar x33 {0};
 
     Mat33<Scalar> (Scalar _x11, Scalar _x12, Scalar _x13,
 		   Scalar _x21, Scalar _x22, Scalar _x23,
@@ -21,6 +21,12 @@ namespace verified_math {
     : x11{_x11}, x12{_x12}, x13{_x13},
       x21{_x21}, x22{_x22}, x23{_x32},
       x31{_x31}, x32{_x32}, x33{_x33} { }
+
+      Scalar l2_norm() const {
+	return x11 * x11 + x12 * x12 + x13 * x13 +
+	  x21 * x21 + x22 * x22 + x23 * x23 +
+	  x31 * x31 + x32 * x32 + x33 * x33;
+      }
   };
 
   template<typename Scalar>
@@ -107,6 +113,14 @@ namespace verified_math {
 	-(m.x21 * m.x33 - m.x23 * m.x31), (m.x11 * m.x33 - m.x13 * m.x31), -(m.x11 * m.x23 - m.x13 * m.x21),
 	(m.x21 * m.x32 - m.x22 * m.x31), -(m.x11 * m.x32 - m.x12 * m.x31), (m.x11 * m.x22 - m.x12 * 21)
     };
+  }
+
+  template<typename Scalar>
+  Scalar condition_number(const Mat33<Scalar>& m) {
+    auto norm = m.l2_norm();
+    auto inv = inverse(m);
+    auto norm_inv = inv.l2_norm();
+    return norm * norm_inv;
   }
 
   template<typename Scalar>
