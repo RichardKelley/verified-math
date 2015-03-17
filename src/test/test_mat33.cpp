@@ -77,8 +77,6 @@ TEST(TestMat33, TestMatInv) {
 		      fabs(prod.x32 - eye.x32) < epsilon &&
 		      fabs(prod.x33 - eye.x33) < epsilon);
 
-      std::cout << verified_math::trace(prod) << std::endl;
-
       return truth_val || kappa > 1.1;
   };
 

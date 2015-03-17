@@ -37,3 +37,8 @@ add_executable(test_mat33
   src/test/test_mat33.cpp
 )
 target_link_libraries(test_mat33 gtest_main checkpp)
+
+add_executable(test_mat44
+  src/test/test_mat44.cpp
+)
+target_link_libraries(test_mat44 gtest_main checkpp)

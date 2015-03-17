@@ -1,6 +1,9 @@
 #ifndef MAT44_H
 #define MAT44_H
 
+#include "verified_math/vec4.h"
+#include "verified_math/mat33.h"
+
 namespace verified_math {
 
   /*
@@ -73,7 +76,7 @@ namespace verified_math {
 
   template<typename Scalar>
   Vec4<Scalar> operator*(const Mat44<Scalar>& m, const Vec4<Scalar>& v) { 
-    return Vec3<Scalar> {
+    return Vec4<Scalar> {
       m.x11 * v.x1 + m.x12 * v.x2 + m.x13 * v.x3 + m.x14 * v.x4,
 	m.x21 * v.x1 + m.x22 * v.x2 + m.x23 * v.x3 + m.x24 * v.x4,
 	m.x31 * v.x1 + m.x32 * v.x2 + m.x33 * v.x3 + m.x34 * v.x4,
@@ -108,7 +111,7 @@ namespace verified_math {
   template<typename Scalar>
   Mat44<Scalar> transpose(const Mat44<Scalar>& m) {
     return Mat44<Scalar> {
-      m.x11, m.x21, m.x31, m.x41,
+        m.x11, m.x21, m.x31, m.x41,
 	m.x12, m.x22, m.x32, m.x42,
 	m.x13, m.x23, m.x33, m.x43,
 	m.x14, m.x24, m.x34, m.x44
@@ -118,18 +121,51 @@ namespace verified_math {
 
   template<typename Scalar>
   Scalar det(const Mat44<Scalar>& m) {
-    // TODO fixme
-    return 0.0;
+
+    auto m1 = Mat33<Scalar>{ m.x22, m.x23, m.x24,
+			     m.x32, m.x33, m.x34,
+			     m.x42, m.x43, m.x44};
+
+    auto m2 = Mat33<Scalar>{ m.x21, m.x23, m.x24,
+			     m.x31, m.x33, m.x34,
+			     m.x41, m.x43, m.x44};
+
+    auto m3 = Mat33<Scalar>{ m.x21, m.x22, m.x24,
+			     m.x31, m.x32, m.x34,
+			     m.x41, m.x42, m.x44};
+
+    auto m4 = Mat33<Scalar>{ m.x21, m.x22, m.x23,
+			     m.x31, m.x32, m.x33,
+			     m.x41, m.x42, m.x43};
+
+    auto det = m.x11 * verified_math::det(m1) -
+      m.x12 * verified_math::det(m2) +
+      m.x13 * verified_math::det(m3) -
+      m.x14 * verified_math::det(m4);
+    
+    return det;
   }
 
   template<typename Scalar>
   Mat44<Scalar> inverse(const Mat44<Scalar>& m) {
     // TODO fixme
     return (1.0 / det(m)) * Mat44<Scalar>{
-        0,0,0,0,
-	0,0,0,0,
-	0,0,0,0,
-	0,0,0,0
+      m.x22 * m.x33 * m.x44 + m.x23 * m.x34 * m.x42 + m.x24 * m.x32 * m.x43 - m.x22 * m.x34 * m.x43 - m.x23 * m.x32 * m.x44 - m.x24 * m.x33 * m.x42,
+	m.x12 * m.x34 * m.x43 + m.x13 * m.x32 * m.x44 + m.x14 * m.x33 * m.x42 - m.x12 * m.x33 * m.x44 - m.x13 * m.x34 * m.x42 - m.x14 * m.x32 * m.x43,
+	m.x12 * m.x23 * m.x44 + m.x13 *m.x24 *m.x42 + m.x14 *m.x22 *m.x43 - m.x12 *m.x33 *m.x44 - m.x13 *m.x22 *m.x44 - m.x14 *m.x23 *m.x42,
+	m.x12 *m.x24 *m.x33 + m.x13 *m.x22 *m.x34 + m.x14 *m.x23 *m.x32 - m.x12 *m.x23 *m.x34 - m.x13 *m.x24 *m.x32 - m.x14 *m.x22 *m.x33,
+	m.x21 *m.x34 *m.x43 + m.x23 *m.x31 *m.x44 + m.x24 *m.x33 *m.x41 - m.x21 *m.x33 *m.x44 - m.x23 *m.x34 *m.x41 - m.x24 *m.x31 *m.x43,
+	m.x11 *m.x33 *m.x44 + m.x13 *m.x34 *m.x41 + m.x14 *m.x31 *m.x43 - m.x11 *m.x34 *m.x43 - m.x13 *m.x31 *m.x44 - m.x14 *m.x33 *m.x41,
+	m.x11 *m.x24 *m.x43 + m.x13 *m.x21 *m.x44 + m.x14 *m.x23 *m.x41 - m.x11 *m.x23 *m.x44 - m.x13 * m.x24 *m.x41 - m.x14 *m.x21 * m.x43,
+	m.x11 *m.x23 *m.x34 + m.x13 *m.x24 *m.x31 + m.x14 *m.x21 *m.x33 - m.x11 *m.x24*m.x33 - m.x13 *m.x21 *m.x34 - m.x14 *m.x23 *m.x31,
+	m.x21 *m.x32 * m.x44 + m.x22 *m.x34 * m.x41 + m.x24 *m.x31 *m.x42 - m.x21 *m.x34 *m.x42 - m.x22 *m.x31 *m.x44 - m.x24 *m.x32 *m.x41,
+        m.x11 *m.x34 *m.x42 + m.x12 *m.x31 *m.x44 + m.x14 *m.x32 *m.x41 - m.x11 *m.x32 *m.x44 - m.x12 *m.x34 *m.x41 - m.x14 *m.x31 *m.x42,
+	m.x11 *m.x22 *m.x44 + m.x12 *m.x24 *m.x41 + m.x14 *m.x21 *m.x42 - m.x11 *m.x24 *m.x42 - m.x12 *m.x21 *m.x44 - m.x14 *m.x22 *m.x41,
+	m.x11 *m.x24 *m.x32 + m.x12 *m.x21 *m.x34 + m.x14 *m.x22 *m.x31 - m.x11 *m.x22 *m.x34 - m.x12 *m.x24 *m.x31 - m.x14 *m.x21 *m.x32,
+	m.x21 *m.x33 *m.x42 + m.x22 *m.x31 *m.x43 + m.x23 *m.x32 *m.x41 - m.x21 *m.x32 *m.x43 - m.x22 *m.x33 *m.x41 - m.x23 *m.x31 *m.x42,
+	m.x11 *m.x32 *m.x43 + m.x12 *m.x33 *m.x41 + m.x13 *m.x31 *m.x42 - m.x11 *m.x33 *m.x42 - m.x12 *m.x31 *m.x43 - m.x13 *m.x32 *m.x41,
+	m.x11 *m.x23 *m.x42 + m.x12 *m.x21 *m.x43 + m.x13 *m.x22 *m.x41 - m.x11 *m.x22 *m.x43 - m.x12 *m.x23 *m.x41 - m.x13 *m.x21 *m.x42,
+	m.x11 *m.x22 *m.x33 + m.x12 * m.x23 *m.x41 + m.x13 *m.x21 *m.x32 - m.x11 *m.x23 *m.x32 - m.x12 *m.x21 *m.x33 - m.x13 *m.x22 *m.x31
     };
   }
 
